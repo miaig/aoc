@@ -1,4 +1,4 @@
-testing = False 
+testing = True
 
 matrix = []
 
@@ -65,24 +65,23 @@ safe = 0
 for i in range(len(matrix)):
     bsafe = True
     trend = 0
+    error = 0
     for j in range(len(matrix[i]) - 1):
         diff = matrix[i][j+1] - matrix[i][j]
         if (1 <= diff <= 3): #increasing
             if trend == 0:
                 trend = 1
             elif trend == -1:
-                bsafe = False
-                break
+                error += 1
         elif (-3 <= diff <= -1):
             if trend == 0:
                 trend = -1
             elif trend == 1:
-                bsafe = False
-                break
+                error += 1
         else:
-            bsafe = False
+            error += 1
 
-    if bsafe:
+    if error <= 0:
         print(matrix[i])
         safe += 1
 
