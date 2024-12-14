@@ -1,4 +1,4 @@
-from os import sched_rr_get_interval
+from enum import pickle_by_enum_name
 
 
 testing = False
@@ -16,7 +16,8 @@ class Robot:
         self.vy = vy
 
     def getpos(self):
-        print(f"X: {self.x}    Y: {self.y}")
+        # print(f"X: {self.x}    Y: {self.y}")
+        return self.x, self.y
 
     def getq(self):
         if self.x == sizex // 2:
@@ -111,20 +112,42 @@ for s in fileinput:
 #     r1.getpos()
 # print(r1.getq())
 
+disp = []
+for i in range(sizey):
+    disp.append([])
+    for j in range(sizex):
+        disp[i].append('.')
+
 # Robot(2, 4, 2, -3).getpos()
-score = [0, 0, 0, 0]
-for i in range(len(numbers)):
-    # print(numbers[i])
-    r = Robot(numbers[i][0], numbers[i][1], numbers[i][2], numbers[i][3])
-    # r.getpos()
-    r.move(100)
-    # r.getpos()
-    if r.getq() >= 0:
-        score[r.getq()] += 1
-    # print(r.getq())
-    # print()
+for j in range(10001):
+    print(j)
+    score = [0, 0, 0, 0]
+    for i in range(sizey):
+        for k in range(sizex):
+            disp[i][k] = '.'
+    for i in range(len(numbers)):
+        # print(numbers[i])
+        r = Robot(numbers[i][0], numbers[i][1], numbers[i][2], numbers[i][3])
+        # r.getpos()
+        r.move(j)
+        # r.getpos()
+        x, y = r.getpos()
+        disp[y][x] = '#'
+        if r.getq() >= 0:
+            score[r.getq()] += 1
+        # print(r.getq())
+        # print()
+    for r in range(len(disp)):
+        for c in range(len(disp[r])):
+            print(disp[r][c], end='')
+        print()
+    print("\n\n")
 print(score)
 res = score[0]*score[1]*score[2]*score[3]
 print(res)
 
+
+# print(len(disp))
+# print(len(disp[0]))
+# print(disp)
 
